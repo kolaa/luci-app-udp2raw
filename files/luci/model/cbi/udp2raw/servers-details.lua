@@ -1,6 +1,11 @@
 local m, s, o
 local sid = arg[1]
 
+local work_modes = {
+	"s",
+	"c"
+}
+
 local raw_modes = {
 	"faketcp",
 	"udp",
@@ -34,6 +39,10 @@ s.anonymous = true
 s.addremove = false
 
 o = s:option(Value, "alias", translate("Alias(optional)"))
+
+o = s:option(ListValue, "work_mode", translate("Work Mode"), translate("Work mode - client (c) or server (s)."))
+for _, v in ipairs(work_modes) do o:value(v, v:lower()) end
+o.default = "c"
 
 o = s:option(Value, "server_addr", translate("Server"))
 o.datatype = "host"

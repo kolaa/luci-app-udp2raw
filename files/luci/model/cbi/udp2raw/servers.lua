@@ -21,6 +21,12 @@ function o.cfgvalue(...)
 	return Value.cfgvalue(...) or translate("None")
 end
 
+o = s:option(DummyValue, "work_mode", translate("Mode"))
+function o.cfgvalue(...)
+	local v = Value.cfgvalue(...)
+	return v and v:lower() or "c"
+end
+
 o = s:option(DummyValue, "_server_address", translate("Server Address"))
 function o.cfgvalue(self, section)
 	local server_addr = m.uci:get("udp2raw", section, "server_addr") or "?"

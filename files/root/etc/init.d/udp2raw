@@ -51,7 +51,7 @@ create_config() {
 	local config_file="$1"
 	echo "# auto-generated config file from /etc/config/udp2raw" > $config_file
 
-	echo "-c" >> $config_file
+	echo "-${work_mode}" >> $config_file && _log "info" "work mode: ${work_mode}"
 	echo "-l ${listen_addr}:${listen_port}" >> $config_file && _log "info" "listening on: ${listen_addr}:${listen_port}"
 	echo "-r ${server_addr}:${server_port}" >> $config_file
 
@@ -81,6 +81,7 @@ validate_config_section() {
 
 validate_server_section() {
 	uci_validate_section "$NAME" servers "$1" \
+		'work_mode:or("c", "s"):c'\
 		'server_addr:host' \
 		'server_port:port:8080' \
 		'listen_addr:ipaddr:127.0.0.1' \
